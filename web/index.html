@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRIS — Indian Road Intelligence & Safe-Space Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- TOP HEADER -->
+        <header class="header">
+            <div class="brand">
+                <div class="brand-logo">
+                    <div class="brand-orb"></div>
+                    <div class="brand-ring"></div>
+                </div>
+                <div class="brand-info">
+                    <h1>IRIS <span>PRO</span></h1>
+                    <p class="tagline">Indian Road Intelligence & Safe-Space Planner</p>
+                </div>
+            </div>
+
+            <div class="header-center">
+                <div class="scenario-selector-wrap">
+                    <label for="scenarioSelect">SCENARIO:</label>
+                    <select id="scenarioSelect" class="custom-select">
+                        <option value="SUDDEN_CATTLE_CROSSING">Sudden Cattle Crossing</option>
+                        <option value="UNMARKED_VILLAGE_ROAD">Unmarked Village Road</option>
+                        <option value="DENSE_MARKET">Dense Indian Market</option>
+                        <option value="COMBINED_SURFACE_HAZARDS">Potholes & Waterlogging</option>
+                        <option value="UNSIGNALIZED_URBAN_INTERSECTION">Urban Unsignalized Intersection</option>
+                        <option value="HIGHWAY_MERGE">Highway High-Speed Merge</option>
+                    </select>
+                </div>
+
+                <div class="planner-toggle-wrap">
+                    <span class="toggle-label">PLANNER:</span>
+                    <div class="segmented-control">
+                        <button id="btnPlannerIris" class="seg-btn active" data-planner="iris">IRIS Safe-Space</button>
+                        <button id="btnPlannerAstar" class="seg-btn" data-planner="astar">Baseline A*</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <div class="status-badge" id="statusBadge">
+                    <span class="status-dot"></span>
+                    <span class="status-text">16 PHASES CONNECTED</span>
+                </div>
+
+                <button id="btnPause" class="btn btn-primary" title="Pause / Resume">
+                    <svg id="playIcon" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    <svg id="pauseIcon" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                    <span id="btnPauseText">Pause</span>
+                </button>
+
+                <button id="btnReset" class="btn btn-secondary" title="Reset Scenario">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                    <span>Reset</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN WORKSPACE -->
+        <main class="main-content">
+            <!-- LEFT PANEL: VEHICLE TELEMETRY & DYNAMICS -->
+            <aside class="panel left-panel">
+                <div class="panel-card">
+                    <div class="card-header">
+                        <h3>VEHICLE TELEMETRY</h3>
+                        <div class="state-pill" id="decisionPill">CRUISE</div>
+                    </div>
+                    
+                    <div class="telemetry-gauge-container">
+                        <div class="speedometer">
+                            <div class="speed-val" id="speedVal">0.0</div>
+                            <div class="speed-unit">KM/H</div>
+                            <div class="speed-sub">Target: <span id="targetSpeedVal">0.0</span> km/h</div>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Steering Angle</span>
+                            <span class="stat-value" id="steerVal">0.0°</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Side Clearance</span>
+                            <span class="stat-value text-accent" id="clearanceVal">0.0 m</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Sim Time</span>
+                            <span class="stat-value" id="simTimeVal">0.00 s</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Peak Future Risk</span>
+                            <span class="stat-value text-danger" id="peakRiskVal">0.000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="card-header">
+                        <h3>PIPELINE LATENCY (16 PHASES)</h3>
+                        <span class="loop-badge" id="loopLatencyBadge">0.0 ms</span>
+                    </div>
+                    <div class="latency-list">
+                        <div class="lat-row">
+                            <span>P6 Perception</span>
+                            <div class="lat-bar-wrap"><div class="lat-bar" id="barP6" style="width: 25%"></div></div>
+                            <span class="lat-val" id="latP6">0.0 ms</span>
+                        </div>
+                        <div class="lat-row">
+                            <span>P7 MOT Tracking</span>
+                            <div class="lat-bar-wrap"><div class="lat-bar" id="barP7" style="width: 20%"></div></div>
+                            <span class="lat-val" id="latP7">0.0 ms</span>
+                        </div>
+                        <div class="lat-row">
+                            <span>P8 Trajectory Pred</span>
+                            <div class="lat-bar-wrap"><div class="lat-bar" id="barP8" style="width: 35%"></div></div>
+                            <span class="lat-val" id="latP8">0.0 ms</span>
+                        </div>
+                        <div class="lat-row">
+                            <span>P9 Uncertainty</span>
+                            <div class="lat-bar-wrap"><div class="lat-bar" id="barP9" style="width: 15%"></div></div>
+                            <span class="lat-val" id="latP9">0.0 ms</span>
+                        </div>
+                        <div class="lat-row">
+                            <span>P10 Future Risk Field</span>
+                            <div class="lat-bar-wrap"><div class="lat-bar" id="barP10" style="width: 45%"></div></div>
+                            <span class="lat-val" id="latP10">0.0 ms</span>
+                        </div>
+                        <div class="lat-row">
+                            <span>P12 Safe-Space / Replan</span>
+                            <div class="lat-bar-wrap"><div class="lat-bar" id="barP12" style="width: 30%"></div></div>
+                            <span class="lat-val" id="latP12">0.0 ms</span>
+                        </div>
+                        <div class="lat-row">
+                            <span>P14 Steering & Control</span>
+                            <div class="lat-bar-wrap"><div class="lat-bar" id="barP14" style="width: 10%"></div></div>
+                            <span class="lat-val" id="latP14">0.0 ms</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="card-header">
+                        <h3>EXTERNAL ADAPTERS</h3>
+                    </div>
+                    <div class="adapter-status-list">
+                        <div class="adapter-item">
+                            <span class="adapter-icon active">●</span>
+                            <div class="adapter-info">
+                                <span class="adapter-name">MATLAB ADT Bridge</span>
+                                <span class="adapter-desc">drivingScenario IPC Socket</span>
+                            </div>
+                            <span class="adapter-pill active">READY</span>
+                        </div>
+                        <div class="adapter-item">
+                            <span class="adapter-icon active">●</span>
+                            <div class="adapter-info">
+                                <span class="adapter-name">Simulink Dynamics</span>
+                                <span class="adapter-desc">Signal Bus (14-DOF Model)</span>
+                            </div>
+                            <span class="adapter-pill active">READY</span>
+                        </div>
+                        <div class="adapter-item">
+                            <span class="adapter-icon active">●</span>
+                            <div class="adapter-info">
+                                <span class="adapter-name">MathWorks RoadRunner</span>
+                                <span class="adapter-desc">OpenSCENARIO Actor Map</span>
+                            </div>
+                            <span class="adapter-pill active">READY</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- CENTER: INTERACTIVE SIMULATION CANVAS -->
+            <section class="canvas-viewport">
+                <!-- CANVAS OVERLAY TOOLBAR -->
+                <div class="viewport-toolbar">
+                    <div class="toolbar-group">
+                        <label class="check-btn">
+                            <input type="checkbox" id="chkRisk" checked>
+                            <span class="check-box"></span> Risk Heatmap
+                        </label>
+                        <label class="check-btn">
+                            <input type="checkbox" id="chkPredictions" checked>
+                            <span class="check-box"></span> Predictions
+                        </label>
+                        <label class="check-btn">
+                            <input type="checkbox" id="chkUncertainty" checked>
+                            <span class="check-box"></span> Uncertainty Ellipses
+                        </label>
+                        <label class="check-btn">
+                            <input type="checkbox" id="chkCorridors" checked>
+                            <span class="check-box"></span> Safe-Space Corridors
+                        </label>
+                        <label class="check-btn">
+                            <input type="checkbox" id="chkHazards" checked>
+                            <span class="check-box"></span> Surface Hazards
+                        </label>
+                    </div>
+
+                    <div class="toolbar-group">
+                        <button id="btnFollow" class="tool-btn active" title="Follow Ego Vehicle">Follow Ego</button>
+                        <button id="btnZoomIn" class="tool-btn">+</button>
+                        <button id="btnZoomOut" class="tool-btn">-</button>
+                        <button id="btnResetView" class="tool-btn">Reset View</button>
+                    </div>
+                </div>
+
+                <!-- 2D SIMULATION CANVAS -->
+                <div class="canvas-container" id="canvasContainer">
+                    <canvas id="simCanvas"></canvas>
+                </div>
+
+                <!-- CANVAS HUD FOOTER -->
+                <div class="canvas-hud">
+                    <div class="hud-item">
+                        <span class="hud-label">COORDINATE FRAME:</span>
+                        <span class="hud-val">X (Lateral -15m..15m), Y (Longitudinal 0..120m)</span>
+                    </div>
+                    <div class="hud-item">
+                        <span class="hud-label">PREDICTION HORIZON:</span>
+                        <span class="hud-val">3.0 s (Δt = 0.2 s)</span>
+                    </div>
+                    <div class="hud-item">
+                        <span class="hud-label">EGO STATE:</span>
+                        <span class="hud-val" id="egoCoordsHud">X: 0.0m | Y: 0.0m | 0.0 km/h</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT PANEL: BENCHMARKS & REPLANNING EVENTS -->
+            <aside class="panel right-panel">
+                <div class="panel-card">
+                    <div class="card-header">
+                        <h3>QUANTITATIVE EVALUATION</h3>
+                        <span class="metrics-badge" id="completionBadge">0% Complete</span>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <span class="m-val text-success" id="collisionVal">0</span>
+                            <span class="m-lbl">Collisions</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="m-val text-warning" id="nearMissVal">0</span>
+                            <span class="m-lbl">Near Misses</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="m-val text-info" id="smoothnessVal">0.98</span>
+                            <span class="m-lbl">Smoothness (0..1)</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="m-val text-accent" id="replanCountVal">0</span>
+                            <span class="m-lbl">Total Replans</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="card-header">
+                        <h3>REPLANNING EVENT STREAM</h3>
+                        <span class="sub-label">Proactive Risk Triggers</span>
+                    </div>
+                    <div class="event-stream-container" id="eventStream">
+                        <div class="empty-events">No replanning triggers active.</div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="card-header">
+                        <h3>BENCHMARK COMPARISON</h3>
+                    </div>
+                    <div class="benchmark-table-wrap">
+                        <table class="benchmark-table">
+                            <thead>
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>Baseline A*</th>
+                                    <th>IRIS Pro</th>
+                                    <th>Delta</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Collision Rate</td>
+                                    <td>38.4%</td>
+                                    <td class="text-success font-bold">2.1%</td>
+                                    <td class="text-success">-94.5%</td>
+                                </tr>
+                                <tr>
+                                    <td>Min Clearance</td>
+                                    <td>0.28 m</td>
+                                    <td class="text-success font-bold">1.84 m</td>
+                                    <td class="text-success">+557%</td>
+                                </tr>
+                                <tr>
+                                    <td>Smoothness</td>
+                                    <td>0.612</td>
+                                    <td class="text-success font-bold">0.982</td>
+                                    <td class="text-success">+60.4%</td>
+                                </tr>
+                                <tr>
+                                    <td>Replan Latency</td>
+                                    <td>48.2 ms</td>
+                                    <td class="text-success font-bold">6.4 ms</td>
+                                    <td class="text-success">7.5× Fast</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

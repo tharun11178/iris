@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>IRIS Evaluation & Benchmark Report</title>
+<style>
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0d1117; color: #c9d1d9; padding: 20px; }
+h1 { color: #58a6ff; border-bottom: 2px solid #30363d; padding-bottom: 10px; }
+h2 { color: #79c0ff; margin-top: 30px; }
+table { width: 100%; border-collapse: collapse; margin-top: 15px; background: #161b22; border-radius: 8px; overflow: hidden; }
+th { background-color: #21262d; color: #8b949e; text-align: left; padding: 12px; font-size: 14px; border-bottom: 1px solid #30363d; }
+td { padding: 12px; border-bottom: 1px solid #21262d; font-size: 13px; }
+tr:hover { background-color: #1c2128; }
+.pass { color: #3fb950; font-weight: bold; }
+.warn { color: #d29922; font-weight: bold; }
+.fail { color: #f85149; font-weight: bold; }
+.badge { padding: 4px 8px; border-radius: 12px; background: #30363d; font-size: 11px; color: #58a6ff; }
+</style>
+</head>
+body>
+<h1>🚀 IRIS Autonomous Driving Evaluation Report</h1>
+<p>Software-Only Indian Road Intelligence & Safe-space Planner Benchmark Matrix</p>
+<p><strong>Scenarios Evaluated:</strong> <span class='badge'>5</span></p>
+<h2>Scenario: <span style='color:#ffa657;'>UNMARKED_VILLAGE_ROAD</span></h2>
+<table>
+<thead><tr>
+<th>Planner Mode / Config</th><th>Completion</th><th>Collisions</th><th>Near Misses</th><th>Min Clearance</th><th>TTC (s)</th><th>Peak Risk</th><th>Avg Risk</th><th>Smoothness</th><th>Replans</th><th>Latency</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>BASELINE_ASTAR</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>1.06 s</td>
+<td>0.950</td>
+<td>0.232</td>
+<td>1.000</td>
+<td>1</td>
+<td>243.1 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_SAFE_SPACE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>1.06 s</td>
+<td>0.950</td>
+<td>0.232</td>
+<td>1.000</td>
+<td>1</td>
+<td>231.2 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_ADAPTIVE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>1.06 s</td>
+<td>0.950</td>
+<td>0.232</td>
+<td>1.000</td>
+<td>1</td>
+<td>229.9 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_FULL</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>1.06 s</td>
+<td>0.950</td>
+<td>0.232</td>
+<td>1.000</td>
+<td>1</td>
+<td>237.7 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_FUTURE_RISK</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>1.06 s</td>
+<td>0.950</td>
+<td>0.232</td>
+<td>1.000</td>
+<td>1</td>
+<td>252.1 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_UNCERTAINTY</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>1.06 s</td>
+<td>0.950</td>
+<td>0.232</td>
+<td>1.000</td>
+<td>1</td>
+<td>232.4 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_SAFE_SPACE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>1.06 s</td>
+<td>0.950</td>
+<td>0.232</td>
+<td>1.000</td>
+<td>1</td>
+<td>250.1 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_SURFACE_COST</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>1.06 s</td>
+<td>0.950</td>
+<td>0.232</td>
+<td>1.000</td>
+<td>1</td>
+<td>238.0 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_ADAPTIVE_REPLANNING</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>1.06 s</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1.000</td>
+<td>0</td>
+<td>0.0 ms</td>
+</tr>
+</tbody></table>
+<h2>Scenario: <span style='color:#ffa657;'>UNSIGNALIZED_URBAN_INTERSECTION</span></h2>
+<table>
+<thead><tr>
+<th>Planner Mode / Config</th><th>Completion</th><th>Collisions</th><th>Near Misses</th><th>Min Clearance</th><th>TTC (s)</th><th>Peak Risk</th><th>Avg Risk</th><th>Smoothness</th><th>Replans</th><th>Latency</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>BASELINE_ASTAR</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>4.1 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>238.3 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_SAFE_SPACE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>4.1 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>242.3 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_ADAPTIVE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>4.1 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>244.2 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_FULL</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>4.1 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>237.7 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_FUTURE_RISK</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>4.1 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>248.2 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_UNCERTAINTY</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>4.1 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>245.0 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_SAFE_SPACE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>4.1 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>250.7 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_SURFACE_COST</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>4.1 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>241.0 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_ADAPTIVE_REPLANNING</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>4.1 s</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1.000</td>
+<td>0</td>
+<td>0.0 ms</td>
+</tr>
+</tbody></table>
+<h2>Scenario: <span style='color:#ffa657;'>HIGHWAY_MERGE</span></h2>
+<table>
+<thead><tr>
+<th>Planner Mode / Config</th><th>Completion</th><th>Collisions</th><th>Near Misses</th><th>Min Clearance</th><th>TTC (s)</th><th>Peak Risk</th><th>Avg Risk</th><th>Smoothness</th><th>Replans</th><th>Latency</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>BASELINE_ASTAR</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>9.53 s</td>
+<td>0.950</td>
+<td>0.233</td>
+<td>1.000</td>
+<td>1</td>
+<td>260.7 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_SAFE_SPACE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>9.53 s</td>
+<td>0.950</td>
+<td>0.233</td>
+<td>1.000</td>
+<td>1</td>
+<td>238.8 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_ADAPTIVE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>9.53 s</td>
+<td>0.950</td>
+<td>0.233</td>
+<td>1.000</td>
+<td>1</td>
+<td>241.0 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_FULL</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>9.53 s</td>
+<td>0.950</td>
+<td>0.233</td>
+<td>1.000</td>
+<td>1</td>
+<td>255.6 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_FUTURE_RISK</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>9.53 s</td>
+<td>0.950</td>
+<td>0.233</td>
+<td>1.000</td>
+<td>1</td>
+<td>246.4 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_UNCERTAINTY</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>9.53 s</td>
+<td>0.950</td>
+<td>0.233</td>
+<td>1.000</td>
+<td>1</td>
+<td>300.9 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_SAFE_SPACE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>9.53 s</td>
+<td>0.950</td>
+<td>0.233</td>
+<td>1.000</td>
+<td>1</td>
+<td>260.2 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_SURFACE_COST</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>9.53 s</td>
+<td>0.950</td>
+<td>0.233</td>
+<td>1.000</td>
+<td>1</td>
+<td>248.4 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_ADAPTIVE_REPLANNING</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>9.53 s</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1.000</td>
+<td>0</td>
+<td>0.0 ms</td>
+</tr>
+</tbody></table>
+<h2>Scenario: <span style='color:#ffa657;'>DENSE_MARKET</span></h2>
+<table>
+<thead><tr>
+<th>Planner Mode / Config</th><th>Completion</th><th>Collisions</th><th>Near Misses</th><th>Min Clearance</th><th>TTC (s)</th><th>Peak Risk</th><th>Avg Risk</th><th>Smoothness</th><th>Replans</th><th>Latency</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>BASELINE_ASTAR</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>2.08 s</td>
+<td>0.950</td>
+<td>0.387</td>
+<td>1.000</td>
+<td>1</td>
+<td>255.3 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_SAFE_SPACE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>2.08 s</td>
+<td>0.950</td>
+<td>0.387</td>
+<td>1.000</td>
+<td>1</td>
+<td>253.0 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_ADAPTIVE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>2.08 s</td>
+<td>0.950</td>
+<td>0.387</td>
+<td>1.000</td>
+<td>1</td>
+<td>244.1 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_FULL</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>2.08 s</td>
+<td>0.950</td>
+<td>0.387</td>
+<td>1.000</td>
+<td>1</td>
+<td>250.4 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_FUTURE_RISK</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>2.08 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>254.7 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_UNCERTAINTY</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>2.08 s</td>
+<td>0.950</td>
+<td>0.387</td>
+<td>1.000</td>
+<td>1</td>
+<td>241.3 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_SAFE_SPACE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>2.08 s</td>
+<td>0.950</td>
+<td>0.387</td>
+<td>1.000</td>
+<td>1</td>
+<td>238.2 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_SURFACE_COST</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>2.08 s</td>
+<td>0.950</td>
+<td>0.387</td>
+<td>1.000</td>
+<td>1</td>
+<td>256.1 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_ADAPTIVE_REPLANNING</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>2.08 s</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1.000</td>
+<td>0</td>
+<td>0.0 ms</td>
+</tr>
+</tbody></table>
+<h2>Scenario: <span style='color:#ffa657;'>SUDDEN_CATTLE_CROSSING</span></h2>
+<table>
+<thead><tr>
+<th>Planner Mode / Config</th><th>Completion</th><th>Collisions</th><th>Near Misses</th><th>Min Clearance</th><th>TTC (s)</th><th>Peak Risk</th><th>Avg Risk</th><th>Smoothness</th><th>Replans</th><th>Latency</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>BASELINE_ASTAR</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>70.55 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>247.4 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_SAFE_SPACE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>70.55 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>255.6 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_ADAPTIVE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>70.55 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>255.0 ms</td>
+</tr>
+<tr>
+<td><strong>IRIS_FULL</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>70.55 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>237.9 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_FUTURE_RISK</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>70.55 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>248.1 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_UNCERTAINTY</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>70.55 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>239.7 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_SAFE_SPACE</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>70.55 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>251.8 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_SURFACE_COST</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>70.55 s</td>
+<td>0.950</td>
+<td>0.578</td>
+<td>1.000</td>
+<td>1</td>
+<td>260.1 ms</td>
+</tr>
+<tr>
+<td><strong>WITHOUT_ADAPTIVE_REPLANNING</strong></td>
+<td class='warn'>4%</td>
+<td class='pass'>0</td>
+<td>0</td>
+<td>5.0 m</td>
+<td>70.55 s</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1.000</td>
+<td>0</td>
+<td>0.0 ms</td>
+</tr>
+</tbody></table>
+<footer style='margin-top:40px; color:#484f58; font-size:12px;'>IRIS Combined Phase 15 Evaluation Engine</footer>
+</body></html>

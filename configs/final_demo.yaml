@@ -1,0 +1,56 @@
+# IRIS Autonomous Driving System — Final Competition Configuration
+# Combined Phase 16 Configuration Schema
+
+simulation:
+  default_scenario: "SUDDEN_CATTLE_CROSSING"
+  seed: 42
+  duration_s: 30.0
+  fps: 60
+  time_step_dt: 0.05
+
+planner:
+  mode: "iris_safe_space"  # Options: baseline_astar, iris_safe_space, iris_adaptive, iris_full
+  allow_diagonal: false
+  goal_tolerance_m: 2.0
+
+risk_weights:
+  weight_risk_integral: 0.30
+  weight_clearance_proximity: 0.15
+  weight_surface_severity: 0.15
+  weight_boundary_proximity: 0.10
+  weight_path_length: 0.10
+  weight_smoothness: 0.10
+  weight_prediction_uncertainty: 0.05
+  weight_goal_distance: 0.05
+
+replanning_thresholds:
+  check_interval_s: 0.2
+  min_replan_cooldown_s: 0.5
+  min_cost_improvement: 0.15
+  critical_risk_threshold: 0.85
+  hard_clearance_threshold_m: 0.8
+
+controller_settings:
+  max_speed_ms: 12.0
+  nominal_cruise_speed_ms: 8.0
+  max_acceleration_ms2: 2.5
+  max_deceleration_ms2: -4.5
+  emergency_deceleration_ms2: -6.0
+  max_steering_angle_rad: 0.60  # ~34.4 deg
+  lookahead_gain_s: 0.5
+  min_lookahead_m: 3.0
+  max_lookahead_m: 12.0
+
+visualization:
+  camera_mode: "FOLLOW"  # Options: FOLLOW, FIXED
+  show_risk_heatmap: true
+  show_future_risk: true
+  show_safe_space: true
+  show_control_debug: true
+  show_replanning_debug: true
+
+matlab_integration:
+  enabled: true
+  ipc_file: "iris_matlab_ipc.json"
+  host: "127.0.0.1"
+  port: 5005

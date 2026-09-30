@@ -1,0 +1,29 @@
+{
+  "SimulinkBusDefinitions": {
+    "EgoVehicleBus": {
+      "Position": { "type": "double[3]", "unit": "m" },
+      "Velocity": { "type": "double", "unit": "m/s" },
+      "Heading": { "type": "double", "unit": "rad" },
+      "SteeringAngle": { "type": "double", "unit": "rad" },
+      "Length": { "type": "double", "unit": "m" },
+      "Width": { "type": "double", "unit": "m" }
+    },
+    "TargetTrajectoryBus": {
+      "Waypoints": { "type": "double[20][2]", "unit": "m" },
+      "NumWaypoints": { "type": "int32", "unit": "count" },
+      "TargetSpeed": { "type": "double", "unit": "m/s" }
+    },
+    "DecisionSafetyBus": {
+      "DecisionStateCode": { "type": "int32", "enum": ["NORMAL", "CAUTION", "SLOW_DOWN", "REPLAN", "STOP", "HOLD", "GOAL"] },
+      "IsEmergencyStop": { "type": "boolean", "unit": "flag" },
+      "PeakFutureRisk": { "type": "double", "unit": "risk_factor" },
+      "MinimumClearance": { "type": "double", "unit": "m" }
+    },
+    "ControlCommandBus": {
+      "SteeringCommandRad": { "type": "double", "unit": "rad" },
+      "AccelerationCommandMs2": { "type": "double", "unit": "m/s^2" },
+      "Throttle": { "type": "double", "unit": "normalized[0,1]" },
+      "Brake": { "type": "double", "unit": "normalized[0,1]" }
+    }
+  }
+}
